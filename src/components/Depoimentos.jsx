@@ -1,7 +1,7 @@
 import { BiArrowBack, BiSolidStar } from "react-icons/bi";
 import barista from "../assets/bg-depoimentos.png";
-import pessoa1 from "../assets/pessoa1.png";
 import { useEffect, useState } from "react";
+import { AXIOS } from "../services";
 
 const DepoimentoCard = ({ estrelas = 0, texto = "", imagem = "", nome = "" }) => {
 
@@ -52,9 +52,10 @@ const Depoimentos = () => {
 
     useEffect(() => {
         async function buscarDepoimentos() {
-            const req = await fetch("http://localhost:3000/depoimentos");
-            const res = await req.json();
-            setDepoimentos(res);
+            // const req = await fetch("http://localhost:3000/depoimentos");
+            // const res = await req.json();
+            const resposta = await AXIOS.get("/depoimentos");
+            setDepoimentos(resposta.data);
         }
         buscarDepoimentos();
     }, []);
