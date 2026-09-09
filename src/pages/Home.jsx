@@ -2,7 +2,7 @@ import Banner from "../components/Banner";
 import banner from "../assets/banner-1.png";
 import banner2 from "../assets/banner-2.png";
 import Introducao from "../components/Introducao";
-import Valores from "../components/valores";
+import Valores from "../components/Valores";
 import Galeria from "../components/Galeria";
 import Cardapio from "../components/Cardapio";
 import FormLead from "../components/FormLead";
