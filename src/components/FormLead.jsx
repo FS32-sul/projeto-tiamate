@@ -1,10 +1,13 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 import { BiSolidCoffeeTogo, BiSolidEnvelope, BiSolidHome, BiSolidMap, BiSolidPhone, BiSolidUserCircle } from "react-icons/bi";
 import img from "../assets/form-bg.png";
 import { useEffect, useRef, useState } from "react";
+import { AXIOS } from "../services";
 const FormLead = () => {
 
     const [estados, setEstados] = useState([]);
     const [cidades, setCidades] = useState([]);
+    const [bloqueado, setBloqueado] = useState(false)
     const inputNome = useRef(null);
     const inputEmail = useRef(null);
     const inputTelefone = useRef(null);
@@ -33,20 +36,45 @@ const FormLead = () => {
         }
     }
 
-    function enviar(){
+    async function enviar(){
         event.preventDefault();
-        const lead = {
-            nome: inputNome.current.value,
-            email: inputEmail.current.value,
-            telefone: inputTelefone.current.value,
-            estado: inputEstado.current.value,
-            cidade: inputCidade.current.value,
-            como: inputComo.current.value
+        try {
+            setBloqueado(true);
+            const lead = {
+                nome: inputNome.current.value,
+                email: inputEmail.current.value,
+                telefone: inputTelefone.current.value,
+                estado: inputEstado.current.value,
+                cidade: inputCidade.current.value,
+                como: inputComo.current.value
+            }
+    
+            if(lead.nome == "" && lead.nome.length <= 4){
+                alert("O Nome está inválido");
+                setBloqueado(false);
+                return;
+            }
+            if(lead.telefone == "" && lead.telefone.length <= 4){
+                alert("O Telefone está inválido");
+                setBloqueado(false);
+                return;
+            }
+            if(lead.email == "" && lead.email.length <= 4){
+                alert("O Email está inválido");
+                setBloqueado(false);
+                return;
+            }
+    
+            const resposta = await AXIOS.post("/interessados", lead);
+            
+            setBloqueado(false);
+            form.current.reset();
+    
+            alert(resposta.data.mensagem);
+        } catch (error) {
+            alert(error.message)
         }
 
-        form.current.reset();
-
-        console.log(lead);
     }
 
     useEffect(() => {
@@ -134,7 +162,8 @@ const FormLead = () => {
                     </div>
                     <button
                         type="submit"
-                        className="w-full h-15 bg-marron-white-2 text-marron-black-2 font-semibold rounded duration-150 hover:bg-gold cursor-pointer"
+                        disabled={bloqueado}
+                        className="w-full h-15 bg-marron-white-2 disabled:bg-gray-200 disabled:cursor-not-allowed text-marron-black-2 font-semibold rounded duration-150 hover:bg-gold cursor-pointer"
                     >
                         Enviar Cadastro
                     </button>

@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 import { useEffect, useState } from "react";
 import { AXIOS } from "../services";
-import { LuMapPin } from "react-icons/lu";
+import { LuClock, LuMapPin, LuPhone } from "react-icons/lu";
 
 const Unidades = () => {
 
@@ -22,7 +23,7 @@ const Unidades = () => {
                 Vem tomar um café
             </h2>
 
-            <div className="grid grid-cols-3">
+            <div className="grid grid-cols-3 gap-10 mt-10">
                 {
                     unidades.length == 0 ? (
                         <div>Nenhum endereço localizado</div>
@@ -32,9 +33,17 @@ const Unidades = () => {
                                 <h6 className="text-marron-medio">Unidade</h6>
                                 <h5 className="text-marron-black-2 text-2xl mb-4">{unidade.nome}</h5>
                                 <div className="h-px bg-black/10 mb-4"></div>
-                                <div>
+                                <div className="flex gap-3 items-center mb-3 font-semibold text-marron-medio">
                                     <LuMapPin/>
-
+                                    {unidade.endereco}
+                                </div>
+                                <div className="flex gap-3 items-center mb-3 font-semibold text-marron-medio">
+                                    <LuClock/>
+                                    {unidade.horario}
+                                </div>
+                                <div className="flex gap-3 items-center mb-3 font-semibold text-marron-medio">
+                                    <LuPhone/>
+                                    {unidade.telefone}
                                 </div>
                             </div>
                         ))
